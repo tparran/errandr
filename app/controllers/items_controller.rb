@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class ItemsController < ApplicationController
   def index
     @items = Item.all
