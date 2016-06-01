@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1>
-    Items
+    Shopping List
     <a href="/items/new" class="btn btn-lg btn-success">New Item</a>
   </h1>
 </div>
@@ -26,5 +26,24 @@
       </tr>
       <% end %>
     </table>
+  </div>
+</div>
+
+<div class="page-header">
+  <h1>
+    Route Finder
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/errand_route">
+      <div>
+        <label for="the_address">My Location</label>
+        <input type="text" name="user_street_address" id="the_address" placeholder="Enter Street Address Here">
+        <button class="btn btn-lg btn-success">Map My Errand!</button>
+      </div>
+
+    </form>
   </div>
 </div>

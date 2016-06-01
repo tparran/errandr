@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   # Routes for the Item resource:
+
   # CREATE
   get "/items/new", :controller => "items", :action => "new"
   post "/create_item", :controller => "items", :action => "create"
@@ -14,6 +15,10 @@ Rails.application.routes.draw do
 
   # DELETE
   get "/delete_item/:id", :controller => "items", :action => "destroy"
+
+  # Errand Route
+  get("/errand_route", { :controller => "items", :action => "errand_route" })
+
   #------------------------------
 
   devise_for :users
