@@ -80,19 +80,22 @@ class ItemsController < ApplicationController
 
     url_safe_search_query = Item.find(3).name.gsub(' ', '+').to_s
 
-    @goodzer_url = " https://api.goodzer.com/products/v0.1/search_stores/?query="+url_safe_search_query+"&lat="+@lat.to_s+"&lng="+@lng.to_s+"&sorting=distance&apiKey="+goodzer_api_key
+    @goodzer_url = "https://api.goodzer.com/products/v0.1/search_stores/?query="+url_safe_search_query+"&lat="+@lat.to_s+"&lng="+@lng.to_s+"&sorting=distance&apiKey="+goodzer_api_key
 
-    #goodzer_parsed_data = JSON.parse(open(@goodzer_url).read)
+    goodzer_parsed_data = JSON.parse(open(@goodzer_url).read)
 
-    #@closeststore = goodzer_parsed_data["stores"][0]["name"]
-    #@closest_store_lat = goodzer_parsed_data["stores"][0]["locations"][0]["lat"]
-    #@closest_store_lng = goodzer_parsed_data["stores"][0]["locations"][0]["lng"]
+    @closeststore = goodzer_parsed_data["stores"][0]["name"]
+    @closest_store_lat = goodzer_parsed_data["stores"][0]["locations"][0]["lat"]
+    @closest_store_lng = goodzer_parsed_data["stores"][0]["locations"][0]["lng"]
 
-    # Find optimized directions for locations using Google Maps API
+    #Find optimized directions for locations using Google Maps API
     #Format for Maps API request: https://maps.googleapis.com/maps/api/directions/json?parameters
-    #origin=@lat.to_s+","+@lng.to_s
 
-    #geocode_url = "http://maps.googleapis.com/maps/api/geocode/json?address="+url_safe_street_address
+    google_maps_api_key = "TBD"
+    origin = @lat.to_s+","+@lng.to_s
+    waypoints = @closest_store_lat.to_s+","+@closest_store_lng.to_s
+
+    #@directions_url ="https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+origin+"&waypoints=optimize:true|"+waypoints+",SA&key="+google_maps_api_key
 
     #geocode_parsed_data = JSON.parse(open(geocode_url).read)
 
