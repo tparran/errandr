@@ -1,27 +1,29 @@
 Rails.application.routes.draw do
   # Routes for the Item resource:
 
+  # Errand Route
+  get "/errand_route", :controller => "items", :action => "errand_route"
+
   # CREATE
-  get "/items/new", :controller => "items", :action => "new"
+  get "/new", :controller => "items", :action => "new"
   post "/create_item", :controller => "items", :action => "create"
 
   # READ
-  get "/items", :controller => "items", :action => "index"
-  get "/items/:id", :controller => "items", :action => "show"
+  get "/", :controller => "items", :action => "index"
+  get "/:id", :controller => "items", :action => "show"
 
   # UPDATE
-  get "/items/:id/edit", :controller => "items", :action => "edit"
+  get "/:id/edit", :controller => "items", :action => "edit"
   post "/update_item/:id", :controller => "items", :action => "update"
 
   # DELETE
   get "/delete_item/:id", :controller => "items", :action => "destroy"
 
-  # Errand Route
-  get("/errand_route", { :controller => "items", :action => "errand_route" })
 
   #------------------------------
 
   devise_for :users
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

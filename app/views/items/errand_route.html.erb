@@ -4,3 +4,15 @@
     Longitude: <%= @lng %>
   </h1>
 </div>
+
+<div>
+  <% @items.each do |item| %>
+  <tr>
+    <td><%= item.name %></td>
+  </tr>
+  <% end %>
+</div>
+
+<div>
+<%= @goodzer_url %>
+</div>
