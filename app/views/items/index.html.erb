@@ -1,49 +1,48 @@
-<div class="page-header">
-  <h1>
-    Shopping List
-    <a href="/new" class="btn btn-lg btn-success">New Item</a>
-  </h1>
-</div>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
+    <div class="page-header">
+      <h2>
+        Shopping List
+      </h2>
+    </div>
     <table class="table table-striped table-hover">
-      <tr>
-        <!-- <th>Image</th> -->
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
 
       <% @items.each do |item| %>
       <tr>
         <!-- <td> <a href="<%= item.url %>">h</a> <%= item.image %></td> -->
         <td><%= item.name %></td>
         <td>
-          <a href="/<%= item.id %>" class="btn btn-primary">Show</a>
-          <a href="/<%= item.id %>/edit" class="btn btn-warning">Edit</a>
           <a href="/delete_item/<%= item.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <a href="/edit/<%= item.id %>/" class="btn btn-warning" rel="nofollow">Edit</a>
         </td>
       </tr>
       <% end %>
     </table>
+      <a href="/new" class="btn btn-lg btn-success">Add an Item</a>
   </div>
-</div>
 
-<div class="page-header">
-  <h1>
-    Route Finder
-  </h1>
-</div>
+  <div class="col-md-6">
 
-<div class="row">
-  <div class="col-md-12">
-    <form action="/errand_route">
-      <div>
-        <label for="the_address">My Location</label>
-        <input type="text" name="user_street_address" id="the_address" placeholder="Enter Street Address Here">
-        <button class="btn btn-lg btn-success">Map My Errand!</button>
+    <div class="page-header">
+      <h2>
+        Errand Router
+      </h2>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <form action="/errand_route">
+          <div>
+            <label for="the_address">My Location</label>
+            <input type="text" name="user_street_address" id="the_address" placeholder="Enter Street Address">
+            <div class="">
+              <button class="btn btn-lg btn-success">Map It!</button>
+            </div>
+          </div>
+
+        </form>
       </div>
-
-    </form>
+    </div>
   </div>
 </div>

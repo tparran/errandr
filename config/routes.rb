@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get "/:id", :controller => "items", :action => "show"
 
   # UPDATE
-  get "/:id/edit", :controller => "items", :action => "edit"
+  get "/edit/:id", :controller => "items", :action => "edit"
   post "/update_item/:id", :controller => "items", :action => "update"
 
   # DELETE

@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Edit Item #<%= @item.id %>: <%= @item.name %></h3>
+  <h3>Edit Item: <%= @item.name %></h3>
 </div>
 
 <div class="row">
@@ -18,14 +18,10 @@
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-      <!-- Label and input for user_id -->
-      <!-- <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
+      <!-- Hidden input for user_id-->
 
-        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @item.user_id %>">
-      </div> -->
+      <input type="hidden" id="user_id" name="user_id"  value="<%=current_user.id %>">
+
 
       <!-- Label and input for price -->
       <!-- <div class="form-group">

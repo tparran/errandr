@@ -2,7 +2,7 @@ require 'open-uri'
 
 class ItemsController < ApplicationController
   def index
-    @items = Item.all
+    @items = current_user.items
   end
 
   def show
@@ -58,7 +58,7 @@ class ItemsController < ApplicationController
 
   def errand_route
     # define items to be found
-    @items = Item.all
+    @items = current_user.items
 
     # convert user street address to coordinates
     @street_address = params[:user_street_address]
