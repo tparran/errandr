@@ -78,26 +78,63 @@ class ItemsController < ApplicationController
 
     goodzer_api_key = "01c8f693b69ab9cd96a63aebd789fdf8"
 
-    url_safe_search_query = Item.find(3).name.gsub(' ', '+').to_s
+    @closest_stores = []
+    @closest_stores_addresses = []
+    @closest_store_lats = []
+    @closest_store_lngs = []
+    @waypoints = []
 
-    @goodzer_url = "https://api.goodzer.com/products/v0.1/search_stores/?query="+url_safe_search_query+"&lat="+@lat.to_s+"&lng="+@lng.to_s+"&sorting=distance&apiKey="+goodzer_api_key
+    @items.each do |item|
+      url_safe_search_query = item.name.gsub(' ', '+').to_s
 
-    goodzer_parsed_data = JSON.parse(open(@goodzer_url).read)
+      @goodzer_url = "https://api.goodzer.com/products/v0.1/search_stores/?query="+url_safe_search_query+"&lat="+@lat.to_s+"&lng="+@lng.to_s+"&sorting=distance&apiKey="+goodzer_api_key
 
-    @closeststore = goodzer_parsed_data["stores"][0]["name"]
-    @closest_store_lat = goodzer_parsed_data["stores"][0]["locations"][0]["lat"]
-    @closest_store_lng = goodzer_parsed_data["stores"][0]["locations"][0]["lng"]
+      goodzer_parsed_data = JSON.parse(open(@goodzer_url).read)
+
+      @closest_store = goodzer_parsed_data["stores"][0]["name"].to_s
+      @closest_store_address = goodzer_parsed_data["stores"][0]["locations"][0]["address"].to_s
+      @closest_store_lat = goodzer_parsed_data["stores"][0]["locations"][0]["lat"].to_s
+      @closest_store_lng = goodzer_parsed_data["stores"][0]["locations"][0]["lng"].to_s
+      @closest_stores.push(@closest_store)
+      @closest_stores_addresses.push(@closest_store_address)
+      @closest_store_lats.push(@closest_store_lng)
+      @closest_store_lngs.push(@closest_store_lng)
+
+      @waypoints.push(@closest_store_lat+","+@closest_store_lng)
+    end
 
     #Find optimized directions for locations using Google Maps API
     #Format for Maps API request: https://maps.googleapis.com/maps/api/directions/json?parameters
 
-    google_maps_api_key = "TBD"
+    google_maps_api_key = "AIzaSyCq7AYXb_d-xjevXvn_0ub-w3P6B2sZMRU"
     origin = @lat.to_s+","+@lng.to_s
-    waypoints = @closest_store_lat.to_s+","+@closest_store_lng.to_s
 
-    #@directions_url ="https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+origin+"&waypoints=optimize:true|"+waypoints+",SA&key="+google_maps_api_key
+    @directions_url_waypoints = @waypoints.join('|')
 
-    #geocode_parsed_data = JSON.parse(open(geocode_url).read)
+    @directions_url ="https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+origin+"&waypoints=optimize:true|"+@directions_url_waypoints+"&key="+google_maps_api_key
+
+    geocode_parsed_data = JSON.parse(open(@directions_url).read)
+
+    @optimized_waypoint_legs = geocode_parsed_data["routes"][0]["legs"]
+
+    @optimized_waypoint_destination_coordinates = []
+    @optimized_waypoint_destination_addresses = []
+    @optimized_waypoint_legs.each do |leg|
+      lat = leg["end_location"]["lat"].to_s
+      lng = leg["end_location"]["lng"].to_s
+      @optimized_waypoint_destination_coordinates.push(lat+","+lng)
+      address = leg["end_address"]
+      @optimized_waypoint_destination_addresses.push(address)
+    end
+
+    @optimized_waypoints_for_embedded_map = @optimized_waypoint_destination_coordinates.join('|')
+
+    #Embed map with directions
+    @embeded_map_link ="https://www.google.com/maps/embed/v1/directions?key=AIzaSyCq7AYXb_d-xjevXvn_0ub-w3P6B2sZMRU&origin="+origin+"&destination="+origin+"&waypoints="+@optimized_waypoints_for_embedded_map
+
+    #provide link to google maps directions
+    #@optimized_waypoints_for_link_to_google_maps = @optimized_waypoint_destination_coordinates.join('/')
+    #  @link_to_google_maps ="https://www.google.com/maps/dir/"+origin+"/"+@optimized_waypoints_for_link_to_google_maps+"/"+origin
 
 
     render("errand_route.html.erb")

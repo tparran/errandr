@@ -1,30 +1,81 @@
 <div>
+  <%= @goodzer_url %>
+</div>
+
+<div>
+  <%= @directions_url %>
+</div>
+
+<!-- <div>
+<% @items.each do |item| %>
+<tr>
+<td><%= item.name %></td>
+</tr>
+<% end %>
+</div> -->
+
+<!-- <div>
+<%= @goodzer_url %>
+</div> -->
+
+<!-- <%= @closeststore  %>
+<%= @closest_store_lat %>
+<%= @closest_store_lng %> -->
+
+<!-- <div>
+<%= @directions_url %>
+</div> -->
+<div class="page-header">
   <h1>
-    Latitude:<%= @lat %>
-    Longitude: <%= @lng %>
+    Stores
   </h1>
 </div>
 
-<div>
+<table class="table table-striped table-hover">
+  <tr>
+    <!-- <th>Image</th> -->
+    <th>Item</th>
+    <th>Store</th>
+    <th>Address</th>
+  </tr>
+
   <% @items.each do |item| %>
   <tr>
     <td><%= item.name %></td>
+    <td><%= @closest_stores[@items.index(item)]%></td>
+    <td><%= @closest_stores_addresses[@items.index(item)]%></td>
   </tr>
   <% end %>
+</table>
+
+<div class="page-header">
+  <h1>
+    Optimal Route
+  </h1>
 </div>
 
-<div>
-<%= @goodzer_url %>
-</div>
+<table class="table table-striped table-hover">
+  <tr>
+    <!-- <th>Image</th> -->
+    <th>Leg</th>
+    <th>Destination</th>
+  </tr>
 
-<%= @closeststore  %>
-<%= @closest_store_lat %>
-<%= @closest_store_lng %>
+  <% @optimized_waypoint_destination_addresses.each do |leg| %>
+  <tr>
+    <td><%= @optimized_waypoint_destination_addresses.index(leg)+1 %></td>
+    <td><%= leg %></td>
+  </tr>
+  <% end %>
+</table>
 
-<div>
-<%= @directions_url %>
-</div>
+<!-- <div class="">
+<%= @link_to_google_maps %>
+</div> -->
 
-<%= @closeststore  %>
-<%= @closest_store_lat %>
-<%= @closest_store_lng %>
+<iframe
+width="600"
+height="450"
+frameborder="0" style="border:0"
+src="<%= @embeded_map_link %>" allowfullscreen>
+</iframe>
